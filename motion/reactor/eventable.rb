@@ -21,7 +21,7 @@ module BubbleWrap
         elsif blk
           events.delete_if { |b| b == blk }
         else
-          __events__[event] = Array.new
+          __events__[event] = nil
         end
         blk
       end
@@ -35,13 +35,19 @@ module BubbleWrap
       end
 
       private
-
+ 
       def __events__
-        @__events__ ||= Hash.new
+        if @__events__.nil?
+          @__events__ = Hash.new
+        end
+        @__events__
       end
-
+         
       def _events_for_key(event)
-        __events__[event] ||= Array.new
+        if __events__[event].nil?
+          __events__[event] = Array.new
+        end
+        __events__[event]
       end
     end
   end
